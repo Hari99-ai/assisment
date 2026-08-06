@@ -57,6 +57,13 @@ npm run dev
 - Deploy the frontend as a separate Vite static service, or build and serve `dist`
 - Use Railway PostgreSQL and set `DATABASE_URL`, `JWT_SECRET`, `PORT`, and `CLIENT_URL`
 
+## Deploying to Vercel
+
+- Vercel can host the React frontend and the Express API through `api/index.js`
+- Add `DATABASE_URL` and `JWT_SECRET` in Vercel environment variables
+- Set `CLIENT_URL` to your Vercel domain if you split frontend and API domains
+- Note: local disk uploads are not persistent on Vercel, so production file uploads should use object storage
+
 ## Deliverables
 
 - API docs: `docs/api.md`

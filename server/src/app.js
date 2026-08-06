@@ -38,7 +38,7 @@ app.use('/api/users', userRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/notifications', notificationRoutes);
 
-if (process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV === 'production' && !process.env.VERCEL) {
   const clientDist = path.join(__dirname, '../../dist');
   app.use(express.static(clientDist));
   app.get('*', (req, res) => {
