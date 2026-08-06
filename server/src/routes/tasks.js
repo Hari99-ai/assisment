@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { prisma } from '../config/prisma.js';
 import { requireAuth, requireRole } from '../middleware/auth.js';
 import { canManageProject, getAccessibleProjectIds, isAdmin } from '../utils/access.js';
+import { resolveAttachmentUrl } from '../utils/attachments.js';
 import { createNotification } from '../utils/notifications.js';
 import { serializeComment, serializeTask, serializeUser } from '../utils/serializers.js';
 import { upload } from '../utils/upload.js';
@@ -349,7 +350,7 @@ router.post('/:id/attachment', requireAuth, upload.single('file'), async (req, r
     return res.status(400).json({ message: 'File is required' });
   }
 
-  const attachmentUrl = `/uploads/${req.file.filename}`;
+  const attachmentUrl = await resolveAttachmentUrl(req.file);
   const updated = await prisma.task.update({
     where: { id: task.id },
     data: { attachmentUrl },

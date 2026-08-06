@@ -62,7 +62,7 @@ npm run dev
 - Vercel can host the React frontend and the Express API through `api/index.js`
 - Add `DATABASE_URL` and `JWT_SECRET` in Vercel environment variables
 - Set `CLIENT_URL` to your Vercel domain if you split frontend and API domains
-- Note: local disk uploads are not persistent on Vercel, so production file uploads should use object storage
+- Set `CLOUDINARY_CLOUD_NAME` and `CLOUDINARY_UPLOAD_PRESET` for persistent task attachments on Vercel
 
 ## Deliverables
 
