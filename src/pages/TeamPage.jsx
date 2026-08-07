@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { toast } from 'react-toastify';
 import { api } from '../api/client';
 import { useAuth } from '../context/AuthContext';
 import Loader from '../components/Loader';
 import SectionHeader from '../components/SectionHeader';
+import { DUMMY_TEAM } from '../data/dummyDashboard';
 
 export default function TeamPage() {
   const { user } = useAuth();
@@ -12,8 +12,11 @@ export default function TeamPage() {
   useEffect(() => {
     if (user?.role !== 'ADMIN') return;
     api.get('/api/users')
-      .then((response) => setUsers(response.data.data))
-      .catch((error) => toast.error(error.response?.data?.message || 'Failed to load users'));
+      .then((response) => {
+        const list = response.data.data;
+        setUsers(list.length ? list : DUMMY_TEAM);
+      })
+      .catch(() => setUsers(DUMMY_TEAM));
   }, [user]);
 
   if (user?.role !== 'ADMIN') {

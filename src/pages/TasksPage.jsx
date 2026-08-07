@@ -4,6 +4,7 @@ import { api } from '../api/client';
 import Loader from '../components/Loader';
 import SectionHeader from '../components/SectionHeader';
 import { TASK_PRIORITIES, TASK_STATUSES } from '../data/constants';
+import { DUMMY_TASKS, DUMMY_TASKS_PAGINATION } from '../data/dummyDashboard';
 
 export default function TasksPage() {
   const [data, setData] = useState(null);
@@ -17,7 +18,14 @@ export default function TasksPage() {
     if (filters.status) params.set('status', filters.status);
     if (filters.priority) params.set('priority', filters.priority);
     if (filters.search) params.set('search', filters.search);
-    api.get(`/api/tasks?${params.toString()}`).then((response) => setData(response.data));
+    api.get(`/api/tasks?${params.toString()}`)
+      .then((response) => {
+        const fallback = !response.data.data.length
+          ? { data: DUMMY_TASKS, pagination: DUMMY_TASKS_PAGINATION }
+          : null;
+        setData(fallback || response.data);
+      })
+      .catch(() => setData({ data: DUMMY_TASKS, pagination: DUMMY_TASKS_PAGINATION }));
   }, [filters.status, filters.priority, filters.search, page]);
 
   if (!data) return <Loader />;

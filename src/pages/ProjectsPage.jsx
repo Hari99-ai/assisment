@@ -8,6 +8,7 @@ import Loader from '../components/Loader';
 import EmptyState from '../components/EmptyState';
 import SectionHeader from '../components/SectionHeader';
 import { PROJECT_STATUSES } from '../data/constants';
+import { DUMMY_PROJECTS, DUMMY_PROJECTS_PAGINATION } from '../data/dummyDashboard';
 
 export default function ProjectsPage() {
   const { user } = useAuth();
@@ -25,7 +26,14 @@ export default function ProjectsPage() {
     if (query.search) params.set('search', query.search);
     if (query.status) params.set('status', query.status);
 
-    api.get(`/api/projects?${params.toString()}`).then((response) => setData(response.data));
+    api.get(`/api/projects?${params.toString()}`)
+      .then((response) => {
+        const fallback = !response.data.data.length
+          ? { data: DUMMY_PROJECTS, pagination: DUMMY_PROJECTS_PAGINATION }
+          : null;
+        setData(fallback || response.data);
+      })
+      .catch(() => setData({ data: DUMMY_PROJECTS, pagination: DUMMY_PROJECTS_PAGINATION }));
   }
 
   useEffect(() => {
