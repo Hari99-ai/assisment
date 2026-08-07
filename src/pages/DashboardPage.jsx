@@ -11,6 +11,7 @@ import {
 } from 'chart.js';
 import { api } from '../api/client';
 import { DUMMY_DASHBOARD } from '../data/dummyDashboard';
+import { useAuth } from '../context/AuthContext';
 import Loader from '../components/Loader';
 import StatCard from '../components/StatCard';
 import SectionHeader from '../components/SectionHeader';
@@ -18,6 +19,7 @@ import SectionHeader from '../components/SectionHeader';
 ChartJS.register(ArcElement, CategoryScale, LinearScale, BarElement, Tooltip, Legend);
 
 export default function DashboardPage() {
+  const { user } = useAuth();
   const [state, setState] = useState(null);
 
   useEffect(() => {
@@ -42,6 +44,9 @@ export default function DashboardPage() {
 
   return (
     <div className="dashboard-grid">
+      <section className="panel role-panel">
+        <div className="role-badge">{user?.role === 'ADMIN' ? 'Admin' : 'Member'} Panel</div>
+      </section>
       <div className="stat-row">
         <StatCard label="Total Projects" value={counts.totalProjects} accent="blue" />
         <StatCard label="Total Tasks" value={counts.totalTasks} accent="purple" />

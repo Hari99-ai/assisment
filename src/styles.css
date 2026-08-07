@@ -141,6 +141,18 @@ textarea { resize: vertical; }
   font-weight: 800;
 }
 .page-body, .page-stack, .dashboard-grid, .landing-page { display: grid; gap: 1.25rem; }
+.role-panel {
+  padding: 0.75rem 1.25rem;
+  display: flex;
+  align-items: center;
+}
+.role-badge {
+  font-size: 1.1rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  text-transform: capitalize;
+  color: var(--accent);
+}
 .stat-row, .cards-grid, .feature-grid, .member-grid { display: grid; gap: 1rem; }
 .stat-row { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
 .charts-grid, .two-column { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
