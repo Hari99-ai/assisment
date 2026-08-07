@@ -10,6 +10,7 @@ import {
   Legend
 } from 'chart.js';
 import { api } from '../api/client';
+import { DUMMY_DASHBOARD } from '../data/dummyDashboard';
 import Loader from '../components/Loader';
 import StatCard from '../components/StatCard';
 import SectionHeader from '../components/SectionHeader';
@@ -20,7 +21,15 @@ export default function DashboardPage() {
   const [state, setState] = useState(null);
 
   useEffect(() => {
-    api.get('/api/dashboard').then((response) => setState(response.data));
+    api.get('/api/dashboard')
+      .then((response) => {
+        const isEmpty = response.data.counts.totalTasks === 0 &&
+          response.data.projects.length === 0 &&
+          response.data.tasks.length === 0 &&
+          response.data.members.length === 0;
+        setState(isEmpty ? DUMMY_DASHBOARD : response.data);
+      })
+      .catch(() => setState(DUMMY_DASHBOARD));
   }, []);
 
   if (!state) {
