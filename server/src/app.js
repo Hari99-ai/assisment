@@ -42,7 +42,7 @@ app.use('/api/notifications', notificationRoutes);
 if (process.env.NODE_ENV === 'production' && !process.env.VERCEL) {
   const clientDist = path.join(__dirname, '../../dist');
   app.use(express.static(clientDist));
-  app.get('*', (req, res) => {
+  app.use((req, res) => {
     res.sendFile(path.join(clientDist, 'index.html'));
   });
 }
